@@ -73,14 +73,14 @@ figManager.full_screen_toggle()
 plt.show()
 
 # Imprimir Tamaño muestra, mediana, moda, varianzas y esperanza en consola
-for i in range(len(sample_sizes)):
+for i, size in enumerate(sample_sizes):
     texto = '------- Distribución geométrica de parámetro p = '+str(p)+' -------' + '\n' \
         + 'Tamaño de Muestra: ' + str(size) + '\n' \
-        + 'Mediana: ' + str(median) + '\n' \
-        + 'Media: ' + str(mean) + '\n' \
-        + 'Moda: ' + str(mode) + '\n' \
-        + 'Varianza Teorica: ' + str(variance_teo) + '\n' \
-        + 'Varianza Empírica: ' + str(round(variance_empi,2)) + '\n' \
-        + 'Esperanza: ' + str(expected) + '\n' \
+        + 'Mediana: ' + str(medians[i]) + '\n' \
+        + 'Media: ' + str(means[i]) + '\n' \
+        + 'Moda: ' + str(modes[i]) + '\n' \
+        + 'Varianza Teorica: ' + str(variance_teos[i]) + '\n' \
+        + 'Varianza Empírica: ' + str(round(variance_empis[i],2)) + '\n' \
+        + 'Esperanza: ' + str(expecteds[i]) + '\n' \
         + '-------------------------' + '\n'
     print(texto)
