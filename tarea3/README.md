@@ -34,4 +34,5 @@ Se mostrará en pantalla completa (full screen) todas las gráficas de la distri
 
 **Consola**
 En la consola al cerrar la ventana de las gráfica se mostrarán tamaño muestra, mediana, moda, varianzas y esperanza para cada una de las muestras.
-![consola](/imgs/consola.png)
+
+![consola](/tarea3/imgs/consola.png)
