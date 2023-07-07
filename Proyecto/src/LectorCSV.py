@@ -1,5 +1,6 @@
 import csv
 import os
+import pandas as pd
 from Persona import Persona
 class LectorCSV:
     def __init__(self, path: str):
@@ -10,20 +11,24 @@ class LectorCSV:
         self.datos: list[Persona] = []
 
     def leer_archivo(self):
-        with open(self.archivo, 'r') as archivo_csv:
-            lector = csv.DictReader(archivo_csv, delimiter=';')
-            for fila in lector:
-                id = int(fila['ID'])
-                anio = int(fila['anio'])
-                mes = int(fila['mes'])
-                sexo = int(fila['Sexo'])
-                edad = int(fila['Edad'])
-                region = int(fila['region'])
-                pea = int(fila['PEA'])
-                desempleo = int(fila['Desempleo'])
-                salario_str = fila['Salario'].replace(',', '.')  # Eliminar la coma
-                salario = float(salario_str)  # Convertir a float
-                self.datos.append(Persona(id, anio, mes, sexo, edad, region, pea, desempleo, salario))
+        #with open(self.archivo, 'r') as archivo_csv:
+        columnas = ["ID", "anio","mes","Sexo","Edad","region","PEA","Desempleo","Salario"]
+        #encuesta = pd.read_csv("ech_2022.csv", usecols=columnas, delimiter=';')
+        encuesta = pd.read_csv(self.archivo, usecols=columnas, delimiter=';')
+        
+        for _, row in encuesta.iterrows():
+            persona = Persona(
+                id=row["ID"],
+                anio=row["anio"],
+                mes=row["mes"],
+                sexo=row["Sexo"],
+                edad=row["Edad"],
+                region=row["region"],
+                pea=row["PEA"],
+                desempleo=row["Desempleo"],
+                salario=row["Salario"]
+            )
+            self.datos.append(persona)
 
     def obtener_datos(self) -> list[Persona]:
         return self.datos

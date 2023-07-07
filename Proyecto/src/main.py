@@ -1,8 +1,9 @@
 from LectorCSV import LectorCSV
 from Persona import Persona
 from EstadisticaDescriptiva import EstadisticaDescriptiva
-import pandas as pd
-import matplotlib.pyplot as plt
+from Estimacion import Estimacion
+# import pandas as pd
+# import matplotlib.pyplot as plt
 
 
 def main():
@@ -17,6 +18,11 @@ def main():
     ed.calcular_estadisticos_salarios()
     ed.imprimir_estadisticas_salarios()
     ed.generar_grafico()
+
+    ##################### Estimacion #####################
+    # estimacion = Estimacion(datos_personas)
+    # print(f"Desempleo estimado: {estimacion.desempleo_total_poblacion()}")
+    # print(f"Intervalo de confianza: {estimacion.intervalo_de_confianza()}")
 
 if __name__ == '__main__':
     main()
