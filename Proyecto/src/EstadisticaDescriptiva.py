@@ -189,15 +189,15 @@ class EstadisticaDescriptiva():
                 + "Cuartil 3: " + str(self.__estadisticos_salarios.cuartil_3) + "\n"
         return texto
 
-    def imprimir_estadisticas_salarios(self):
+    # def imprimir_estadisticas_salarios(self):
 
-        print("Estadisticas de Salarios")
-        print("Tasa de desempleo: ", self.calcular_tasa_desempleo(), "%")
-        print("Media: ", self.__estadisticos_salarios.media)
-        print("Mediana: ", self.__estadisticos_salarios.mediana)
-        print("Moda: ", self.__estadisticos_salarios.moda)
-        print("Minimo: ", self.__estadisticos_salarios.minimo)
-        print("Maximo: ", self.__estadisticos_salarios.maximo)
-        print("Cuartil 1: ", self.__estadisticos_salarios.cuartil_1)
-        print("Cuartil 2: ", self.__estadisticos_salarios.cuartil_2)
-        print("Cuartil 3: ", self.__estadisticos_salarios.cuartil_3)
+    #     print("Estadisticas de Salarios")
+    #     print("Tasa de desempleo: ", self.calcular_tasa_desempleo(), "%")
+    #     print("Media: ", self.__estadisticos_salarios.media)
+    #     print("Mediana: ", self.__estadisticos_salarios.mediana)
+    #     print("Moda: ", self.__estadisticos_salarios.moda)
+    #     print("Minimo: ", self.__estadisticos_salarios.minimo)
+    #     print("Maximo: ", self.__estadisticos_salarios.maximo)
+    #     print("Cuartil 1: ", self.__estadisticos_salarios.cuartil_1)
+    #     print("Cuartil 2: ", self.__estadisticos_salarios.cuartil_2)
+    #     print("Cuartil 3: ", self.__estadisticos_salarios.cuartil_3)

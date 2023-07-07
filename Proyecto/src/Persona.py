@@ -9,10 +9,11 @@ class Persona:
         self.region = region
         self.pea = pea
         self.desempleo = desempleo
-        if ',' in salario:
-            self.salario = float(salario.replace(',', '.'))
-        else:
-            self.salario = float(salario)
+        self.salario = salario
+        # if ',' in salario:
+        #     self.salario = float(salario.replace(',', '.'))
+        # else:
+        #     self.salario = float(salario)
             
 
     def __str__(self):

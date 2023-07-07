@@ -9,14 +9,14 @@ class LectorCSV:
         # Unir la ruta del programa con la ruta del archivo
         self.archivo = os.path.join(actual_dir, path)
         self.datos: list[Persona] = []
+        self.encuesta: pd.DataFrame = None
 
     def leer_archivo(self):
         #with open(self.archivo, 'r') as archivo_csv:
         columnas = ["ID", "anio","mes","Sexo","Edad","region","PEA","Desempleo","Salario"]
         #encuesta = pd.read_csv("ech_2022.csv", usecols=columnas, delimiter=';')
-        encuesta = pd.read_csv(self.archivo, usecols=columnas, delimiter=';')
-        
-        for _, row in encuesta.iterrows():
+        self.encuesta = pd.read_csv(self.archivo, usecols=columnas, delimiter=';')
+        for _, row in self.encuesta.iterrows():
             persona = Persona(
                 id=row["ID"],
                 anio=row["anio"],
@@ -31,4 +31,4 @@ class LectorCSV:
             self.datos.append(persona)
 
     def obtener_datos(self) -> list[Persona]:
-        return self.datos
+        return self.datos, self.encuesta
