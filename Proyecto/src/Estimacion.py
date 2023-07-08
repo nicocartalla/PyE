@@ -1,10 +1,7 @@
-from Persona import Persona
-#import math
 import pandas as pd
-#from matplotlib.ticker import FuncFormatter
-#import statistics as st
 import numpy as np
 import scipy.stats as st
+
 class Estimacion():
     def __init__(self,personas: pd.DataFrame):
         self.__personas_df = personas
@@ -30,6 +27,8 @@ class Estimacion():
         return lower_limit, pop_mean_estimation, upper_limit
 
     def one_tail_test(self, column_name: str,year: int, test_against: float, alternative: str = 'lesser', alpha: float = 0.05) -> str:
+        raise DeprecationWarning("Este método está deprecado, usar h_test")
+    
         # 1er paso, elegir test the hipotesis
         test_h0 = "mu = {}".format(test_against)
         if alternative == 'lesser':
@@ -60,7 +59,9 @@ class Estimacion():
         else:
             return f"No se puede rechazar H0: {test_h0} a un nivel de significancia de {alpha}"
 
-    def two_tail_test(self,sample, column_name: str, test_against: float, alpha: float = 0.05) -> str:
+    def two_tail_test(self, column_name: str, test_against: float, alpha: float = 0.05) -> str:
+        raise DeprecationWarning("Este método está deprecado, usar h_test")
+
         # 1er paso, elegir test the hipotesis
         test_h0 = "mu = {}".format(test_against)
         test_h1 = "mu != {}".format(test_against)
@@ -83,3 +84,27 @@ class Estimacion():
             return f"Rechazar H0: {test_h0} a un nivel de significancia de {alpha}"
         else:
             return f"No se puede rechazar H0: {test_h0} a un nivel de significancia de {alpha}"
+        
+    def h_test(self, sample: pd.DataFrame, column_name: str, test_against: float | pd.DataFrame, alternative: str = 'less', alpha: float = 0.05) -> tuple[bool, float]:
+        if alternative not in ['less', 'greater', 'two-sided']:
+            raise ValueError("alternative must be 'less', 'greater' or 'two-sided'")
+        if alpha <= 0 or alpha >= 1:
+            raise ValueError("alpha must be between 0 and 1")
+        if column_name not in sample.columns:
+            raise ValueError("column_name must be in sample.columns")
+        if isinstance(test_against, pd.DataFrame) and column_name not in test_against.columns:
+            raise ValueError("column_name must be in test_against.columns")
+        if isinstance(test_against, pd.DataFrame) and sample.shape[1] != test_against.shape[1]:
+            raise ValueError("sample and test_against must have the same number of columns")
+
+        # Get p-value
+        if (isinstance(test_against, pd.DataFrame)):
+            result = st.ttest_ind(sample[column_name], test_against[column_name], equal_var=False, alternative=alternative)
+        else:
+            result = st.ttest_1samp(sample[column_name], test_against, alternative=alternative)
+        
+        # Compare p-value with alpha
+        if result.pvalue < alpha:
+            return True, result.pvalue
+        else:
+            return False, result.pvalue

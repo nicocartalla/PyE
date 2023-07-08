@@ -23,7 +23,8 @@ def main():
     ##################### Estimacion #####################
     print("##############################################")
     print("---- Estimacion ----")
-    estimacion = Estimacion(datos_persona_df[datos_persona_df['PEA'] == 1])
+    datos_persona_pea_df = datos_persona_df[datos_persona_df['PEA'] == 1]
+    estimacion = Estimacion(datos_persona_pea_df)
     unemployment_estimation = estimacion.estimate_norm_population_mean('Desempleo')
     print("Intervalo de confianza")
     print(f"Limite inferior: {unemployment_estimation[0]}")
@@ -32,15 +33,23 @@ def main():
     print("##############################################")
     ###################### HIPÓTESIS ######################
     print("---- Hipotesis ----")
-    print("Mo aumento el desempleo en la poblacion de 2022 con respecto a 2021:", end=" ")
-    print(estimacion.one_tail_test('Desempleo',2022, 0.07, 'greater', 0.05))
+    datos_persona_pea_2022_df = datos_persona_pea_df[datos_persona_pea_df['anio'] == 2022]
+    rejected, p_value = estimacion.h_test(datos_persona_pea_2022_df, 'Desempleo', 0.07, 'greater')
+    print(f"Aumento del desempleo en 2022? {rejected} (p-value: {p_value:.2e})")
 
-    salaries_without_outliers = datos_persona_df[(datos_persona_df['Salario'] > 0) & (datos_persona_df['Salario'] < 1000000)]
-    data2 = salaries_without_outliers
-    print("No existen diferencias significativas entre el salario promedio de hombres y mujeres:")
-    estimacion_2 = Estimacion(data2[data2['PEA'] == 1 & (data2['Sexo'] == 2)]) 
-    _, estimated_sex2_salary_mean, _ = estimacion_2.estimate_norm_population_mean('Salario')
-    print(estimacion_2.two_tail_test(data2[data2['PEA'] == 1 & (data2['Sexo'] == 1)], 'Salario', estimated_sex2_salary_mean, 0.01))
+    # Remover outliers
+    data4 = datos_persona_pea_df[datos_persona_pea_df['Salario'] > 0]
+    data4 = data4[data4['Salario'] < 150000]
+    # Filtrar solo empleados
+    data4 = data4[data4['Desempleo'] == 0] 
+    # Separar por sexo
+    data4_male = data4[data4['Sexo'] == 1]
+    data4_female = data4[data4['Sexo'] == 2]
+
+    # Test de hipótesis para diferencia de medias de salarios entre hombres y mujeres
+    rejected, p_value = estimacion.h_test(data4_male, 'Salario', data4_female, 'two-sided', 0.01)
+    print(f"Existe diferencia de medias de salarios entre hombres y mujeres? {rejected} (p-value: {p_value:.2e})")
+
 
 
 
